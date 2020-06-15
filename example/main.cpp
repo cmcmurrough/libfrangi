@@ -137,7 +137,7 @@ int main(int argc, char *argv[]){
 	delete [] longopts;
 	
 	//read image file, run frangi, output to output file
-	Mat input_img = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
+	Mat input_img = imread(filename, cv::IMREAD_GRAYSCALE);
 	Mat input_img_fl;
 	input_img.convertTo(input_img_fl, CV_32FC1);
 	Mat vesselness, scale, angles;
