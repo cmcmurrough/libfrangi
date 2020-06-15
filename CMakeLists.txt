@@ -1,7 +1,11 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
 project(libfrangi)
-set(CMAKE_BUILD_TYPE Release)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+# set build type to release
+set(CMAKE_BUILD_TYPE "Release")
+
+# explicitly set c++14
+set(CMAKE_CXX_STANDARD 14)
 	
 # configure OpenCV
 # workaround for -lopencv_dep_cudart linker error when using CUDA
@@ -15,13 +19,7 @@ set(CMAKE_CXX_FLAGS "-Wl,-latomic")
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
+# build the application
+add_executable(frangi_demo frangi_demo.cpp)
+target_link_libraries(frangi_demo ${OpenCV_LIBS})
 
-#compile
-add_library(frangi SHARED src/frangi.cpp)
-add_executable(frangi-bin example/main.cpp)
-target_link_libraries(frangi-bin frangi ${OpenCV_LIBS})
-
-#install
-install (TARGETS frangi DESTINATION lib)
-install (TARGETS frangi-bin DESTINATION bin)
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/frangi.h DESTINATION include)
